@@ -17,7 +17,7 @@ module Api
     end
 
     def activity_per_category_for_graph
-      details = Category.find_by_sql("SELECT categories.type AS cat_type, EXTRACT(WEEK FROM transactions.posted_at) as week, abs(sum(amount)) as amount FROM sorted_transactions LEFT JOIN categories ON categories.id = category_id LEFT JOIN transactions ON transactions.id = transaction_id WHERE transactions.posted_at > date_trunc('day', NOW() - interval '3 months') GROUP BY categories.type, week ORDER BY week;")
+      details = Category.find_by_sql("SELECT categories.type AS cat_type, EXTRACT(WEEK FROM transactions.posted_at) as week, abs(sum(amount)) as amount FROM sorted_transactions LEFT JOIN categories ON categories.id = category_id LEFT JOIN transactions ON transactions.id = transaction_id WHERE transactions.posted_at > date_trunc('day', NOW() - interval '3 months') AND categories.type <> 'Transfer' AND categories.type <> 'Income' GROUP BY categories.type, week ORDER BY week;")
 
       categories = {}
 

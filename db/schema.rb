@@ -16,7 +16,7 @@ ActiveRecord::Schema.define(version: 20141129174946) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "accounts", force: true do |t|
+  create_table "accounts", force: :cascade do |t|
     t.string   "name",                                              null: false
     t.string   "number",                                            null: false
     t.string   "type",                                              null: false
@@ -27,7 +27,7 @@ ActiveRecord::Schema.define(version: 20141129174946) do
 
   add_index "accounts", ["number"], name: "index_accounts_on_number", unique: true, using: :btree
 
-  create_table "categories", force: true do |t|
+  create_table "categories", force: :cascade do |t|
     t.string   "name",       null: false
     t.string   "type",       null: false
     t.datetime "created_at"
@@ -36,7 +36,7 @@ ActiveRecord::Schema.define(version: 20141129174946) do
 
   add_index "categories", ["name"], name: "index_categories_on_name", unique: true, using: :btree
 
-  create_table "goals", force: true do |t|
+  create_table "goals", force: :cascade do |t|
     t.integer  "category_id",                                            null: false
     t.decimal  "amount",      precision: 10, scale: 2, default: 0.0,     null: false
     t.string   "period",                               default: "Month", null: false
@@ -46,7 +46,7 @@ ActiveRecord::Schema.define(version: 20141129174946) do
 
   add_index "goals", ["category_id"], name: "index_goals_on_category_id", using: :btree
 
-  create_table "payments", force: true do |t|
+  create_table "payments", force: :cascade do |t|
     t.string   "name",                                                   null: false
     t.integer  "category_id",                                            null: false
     t.decimal  "amount",      precision: 10, scale: 2,                   null: false
@@ -58,7 +58,7 @@ ActiveRecord::Schema.define(version: 20141129174946) do
 
   add_index "payments", ["category_id"], name: "index_payments_on_category_id", using: :btree
 
-  create_table "sorted_transactions", force: true do |t|
+  create_table "sorted_transactions", force: :cascade do |t|
     t.string   "name",                           null: false
     t.integer  "transaction_id",                 null: false
     t.integer  "category_id",                    null: false
@@ -73,7 +73,7 @@ ActiveRecord::Schema.define(version: 20141129174946) do
   add_index "sorted_transactions", ["category_id"], name: "index_sorted_transactions_on_category_id", using: :btree
   add_index "sorted_transactions", ["transaction_id"], name: "index_sorted_transactions_on_transaction_id", using: :btree
 
-  create_table "sorting_rules", force: true do |t|
+  create_table "sorting_rules", force: :cascade do |t|
     t.string   "contains",                    null: false
     t.string   "name"
     t.integer  "category_id",                 null: false
@@ -86,7 +86,7 @@ ActiveRecord::Schema.define(version: 20141129174946) do
   add_index "sorting_rules", ["category_id"], name: "index_sorting_rules_on_category_id", using: :btree
   add_index "sorting_rules", ["contains"], name: "index_sorting_rules_on_contains", unique: true, using: :btree
 
-  create_table "statements", force: true do |t|
+  create_table "statements", force: :cascade do |t|
     t.integer  "account_id",                          null: false
     t.decimal  "balance",    precision: 10, scale: 2, null: false
     t.datetime "created_at"
@@ -97,13 +97,13 @@ ActiveRecord::Schema.define(version: 20141129174946) do
 
   add_index "statements", ["account_id"], name: "index_statements_on_account_id", using: :btree
 
-  create_table "tags", force: true do |t|
+  create_table "tags", force: :cascade do |t|
     t.string "name", null: false
   end
 
   add_index "tags", ["name"], name: "index_tags_on_name", unique: true, using: :btree
 
-  create_table "transactions", force: true do |t|
+  create_table "transactions", force: :cascade do |t|
     t.decimal  "amount",       precision: 10, scale: 2, null: false
     t.string   "fit_id",                                null: false
     t.string   "memo"

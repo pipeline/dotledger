@@ -52,6 +52,7 @@ module Statistics
       @query ||=
         Category.joins(:goal, sorted_transactions: :account_transaction)
         .where(transactions: { posted_at: date_range })
+        .where("categories.NAME NOT LIKE '%Transfer%'")
         .select(select_list)
         .group('categories.id, categories.name, categories.type, goals.amount, goals.period')
         .order(:name)
